@@ -1,31 +1,41 @@
 part of 'category_bloc.dart';
 
 class CategoryState {
-  Status? status;
+  Status status;
   HitCategoriesResponse? data;
   HitProductsResponse? products;
   HitProductsResponse? productsNew;
   SpecialBrandsResponse? brands;
   CollectionsResponse? oneAddOne;
-  GetProducts? getProductsCategory;
+  List<GetProducts>? getProductsCategory;
   GetChipsResponse? getChipsResponse;
   List<Favourite>? favouriteData;
   List<Cart>? cartData;
+  String? selectedCategory;
+  int count;
+  final int currentPage;
+  final bool hasReachedMax;
+  final List<GetProducts> getProductsCategories;
 
 
+  CategoryState({
+    this.status = Status.loading,
+    this.data,
+    this.products,
+    this.brands,
+    this.productsNew,
+    this.oneAddOne,
+    this.getProductsCategory,
+    this.getChipsResponse,
+    this.favouriteData,
+    this.cartData,
+    this.selectedCategory,
+    this.count = 0,
+    this.currentPage = 1,
+    this.hasReachedMax = false,
+    this.getProductsCategories = const [],
 
-  CategoryState(
-      {this.status,
-      this.data,
-      this.products,
-      this.brands,
-      this.productsNew,
-      this.oneAddOne,
-      this.getProductsCategory,
-      this.getChipsResponse,
-      this.favouriteData,
-      this.cartData,
-      });
+  });
 
   CategoryState copyWith({
     Status? status,
@@ -34,10 +44,15 @@ class CategoryState {
     HitProductsResponse? productsNew,
     SpecialBrandsResponse? brands,
     CollectionsResponse? oneAddOne,
-    GetProducts? getProductsCategory,
+    List<GetProducts>? getProductsCategory,
     GetChipsResponse? getChips,
     List<Favourite>? favouriteData,
     List<Cart>? cartData,
+    String? selectedCategory,
+    int? count,
+    int? currentPage,
+    bool? hasReachedMax,
+    List<GetProducts>? getProductsCategories,
 
   }) =>
       CategoryState(
@@ -51,6 +66,11 @@ class CategoryState {
         getChipsResponse: getChips ?? this.getChipsResponse,
         favouriteData: favouriteData ?? this.favouriteData,
         cartData: cartData ?? this.cartData,
+        selectedCategory: selectedCategory ?? this.selectedCategory,
+        count: count ?? this.count,
+        currentPage: currentPage ?? this.currentPage,
+        hasReachedMax: hasReachedMax ?? this.hasReachedMax,
+        getProductsCategories: getProductsCategories ?? this.getProductsCategories,
       );
 }
 

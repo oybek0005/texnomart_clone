@@ -3,23 +3,12 @@ part of 'global_bloc.dart';
 
 abstract class GlobalEvent {}
 
-class AddCart extends GlobalEvent{
-  final Cart cart;
+class AddsCart extends GlobalEvent {}
+class RemoveCart extends GlobalEvent {}
+class AddsFavourite extends GlobalEvent {}
+class RemoveFavourite extends GlobalEvent {}
+class RemoveAllCart extends GlobalEvent {}
+class RemoveAllFavourite extends GlobalEvent {}
 
-  AddCart(this.cart);
-}
-class DeleteCart extends GlobalEvent{
-  final String key;
-
-  DeleteCart(this.key);
-}
-class UpdateCart extends GlobalEvent{
-  final String key;
-  final Cart cart;
-
-  UpdateCart(this.cart, this.key);
-}
-
-class GetAllCart extends GlobalEvent{}
 
 

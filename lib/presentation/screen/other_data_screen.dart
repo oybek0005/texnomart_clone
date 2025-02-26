@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:texnomart_clone/data/source/remote/response/feature/feature_response.dart';
 import 'package:texnomart_clone/presentation/utils/widgets.dart';
 
+import 'detail_screen.dart';
+
 class OtherDataScreen extends StatefulWidget {
   final String? data;
   final FeatureResponse? feature;
@@ -104,10 +106,3 @@ class _OtherDataScreenState extends State<OtherDataScreen> {
   }
 }
 
-String removeHtmlTags(String htmlText) {
-  final RegExp exp = RegExp(r'<[^>]*>|\\u[0-9A-Fa-f]{4}');
-  return htmlText
-      .replaceAll(exp, '')
-      .replaceAll('\\u003C', '')
-      .replaceAll('\\u003E', '');
-}

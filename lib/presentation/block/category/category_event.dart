@@ -9,9 +9,7 @@ class GetHitProductNewEvent extends CategoryEvent{}
 class GetHitBrandsEvent extends CategoryEvent{}
 class GetOneAddOneEvent extends CategoryEvent{}
 class GetProductAllEvent extends CategoryEvent{
-  final String category;
-  final int page;
-  GetProductAllEvent({required this.category, required this.page});
+  final String category;GetProductAllEvent({required this.category,});
 }
 class GetChipsEvent extends CategoryEvent{
   final String slug;
@@ -50,3 +48,4 @@ class UpdateCart extends CategoryEvent{
 }
 
 class GetAllCart extends CategoryEvent{}
+

@@ -12,8 +12,9 @@ class FavouriteBloc extends Bloc<FavouriteEvent, FavouriteState> {
   final repository = getIt<HomeRepository>();
   FavouriteBloc() : super(FavouriteState()) {
     on<GetAllFavourite>((event, emit) {
+      emit(state.copyWith(status: FavouriteStatus.loading));
       final result = repository.getAllElement();
-      emit(state.copyWith(favouriteData: result));
+      emit(state.copyWith(favouriteData: result,status: FavouriteStatus.success));
     });
     on<AddFavourite>((event, emit) async{
       repository.addElement(event.favourite);
@@ -21,6 +22,15 @@ class FavouriteBloc extends Bloc<FavouriteEvent, FavouriteState> {
 
     on<DeleteFavourite>((event, emit) async{
       repository.delete(event.key);
+      add(GetAllFavourite());
+    });
+
+    on<AddCart>((event, emit){
+      repository.addElementInCart(event.cart);
+    });
+
+    on<DeleteCart>((event, emit){
+      repository.deleteElementInCart(event.key);
     });
   }
 }

@@ -1,9 +1,14 @@
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../data/source/locale/hive_data/favourite.dart';
 import '../block/favourite/favourite_bloc.dart';
+import '../block/global/global_bloc.dart';
+import '../block/product/product_bloc.dart';
 import '../utils/widgets.dart';
+import 'detail_screen.dart';
 
 class FavouriteScreen extends StatefulWidget {
   const FavouriteScreen({super.key});
@@ -21,52 +26,87 @@ class _FavouriteScreenState extends State<FavouriteScreen> {
         backgroundColor: Colors.white,
         appBar: AppBar(
           backgroundColor: Color(0XFFFBC100),
+          title: customText("Sevimlilar", FontWeight.w500, 22),
         ),
         body: BlocBuilder<FavouriteBloc, FavouriteState>(
           builder: (context, state) {
             final data = state.favouriteData ?? [];
-            final dataClone = state.favouriteData ?? [];
-            print(data.length);
             return CustomScrollView(
               slivers: [
                 SliverToBoxAdapter(
                   child: Column(children: [
-                    ListView.separated(
+                    if (state.status == FavouriteStatus.loading)
+                      Center(
+                        child: CupertinoActivityIndicator(),
+                      )
+                    else if (state.status == FavouriteStatus.success &&
+                        data.isNotEmpty)
+                      ListView.separated(
                         itemBuilder: (context, index) {
                           final favourite = data[index];
-                          final favouriteClone= dataClone[index];
-
-    return HitProductCardHorizontal(
-                            isLiked: true,
-                            imageUrl: favourite.image,
-                            title: favourite.name,
-                            price: favourite.price,
-                            subtitle: favourite.monthPrice,
-                            onLikeChanged: (newIsLiked) {
-                              if (newIsLiked) {
-                                context.read<FavouriteBloc>().add(
-                                  AddFavourite(Favourite(
-                                      favouriteClone.id.toString(),
-                                      favouriteClone.name,
-                                      favouriteClone.monthPrice,
-                                      favouriteClone.price,
-                                      favouriteClone.image
-                                  )),
-                                );
-                              } else {
-                                context.read<FavouriteBloc>().add(
-                                  DeleteFavourite(
-                                      favourite.id.toString()),
-                                );
-                              }
+                          return GestureDetector(
+                            onTap: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => BlocProvider(
+                                            create: (context) => ProductBloc()
+                                              ..add(GetProductMain(
+                                                  id: int.parse(favourite.id)))
+                                              ..add(GetProductDecription(
+                                                  id: int.parse(favourite.id)))
+                                              ..add(GetFeature(
+                                                  id: int.parse(favourite.id))),
+                                            child: DetailScreen(isLiked: true),
+                                          )));
                             },
+                            child: HitProductCardHorizontal(
+                              isInCart: false,
+                              imageUrl: favourite.image,
+                              title: favourite.name,
+                              price: favourite.price,
+                              subtitle: favourite.monthPrice,
+                              onLikeChanged: () {
+                                context.read<GlobalBloc>().add(RemoveFavourite());
+                                context.read<FavouriteBloc>().add(
+                                      DeleteFavourite(favourite.id.toString()),
+                                    );
+                              },
+                              onCartChanged: (newIsCart) {
+                                if (newIsCart) {
+                                  print("newIsCart");
+                                  context.read<GlobalBloc>().add(AddsCart());
+                                  context.read<FavouriteBloc>().add(
+                                        AddCart(Cart(
+                                          favourite.id.toString(),
+                                          favourite.name,
+                                          favourite.monthPrice.toString(),
+                                          favourite.price.toString(),
+                                          favourite.image,
+                                          1,
+                                          true,
+                                        )),
+                                      );
+                                } else {
+                                  context.read<GlobalBloc>().add(RemoveCart());
+                                  context.read<FavouriteBloc>().add(
+                                        DeleteCart(favourite.id.toString()),
+                                  );
+                                }
+                              },
+                            ),
                           );
                         },
                         separatorBuilder: (context, index) => Divider(),
                         itemCount: data.length,
-                      physics: BouncingScrollPhysics(),
-                      shrinkWrap: true,
-                    )
+                        physics: BouncingScrollPhysics(),
+                        shrinkWrap: true,
+                      )
+                    else
+                      CachedNetworkImage(
+                        imageUrl:
+                            "https://img.freepik.com/premium-vector/modern-design-concept-no-favorite-design_637684-251.jpg",
+                      )
                   ]),
                 )
               ],

@@ -2,9 +2,9 @@ part of 'favourite_bloc.dart';
 
 class FavouriteState {
   List<Favourite>? favouriteData;
-  FavouriteStatus? status;
+  FavouriteStatus status;
 
-  FavouriteState({this.favouriteData, this.status});
+  FavouriteState({this.favouriteData, this.status= FavouriteStatus.loading});
 
 
   FavouriteState copyWith({

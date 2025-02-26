@@ -15,3 +15,14 @@ class DeleteFavourite extends FavouriteEvent{
 
   DeleteFavourite(this.key);
 }
+
+class AddCart extends FavouriteEvent{
+  final Cart cart;
+
+  AddCart(this.cart);
+}
+class DeleteCart extends FavouriteEvent{
+  final String key;
+
+  DeleteCart(this.key);
+}

@@ -8,6 +8,7 @@ import 'package:texnomart_clone/presentation/screen/detail_screen.dart';
 import 'package:texnomart_clone/presentation/screen/product_category_screen.dart';
 
 import '../block/category/category_bloc.dart';
+import '../block/global/global_bloc.dart';
 import '../block/product/product_bloc.dart';
 import '../utils/persistent_header.dart';
 import '../utils/widgets.dart';
@@ -266,7 +267,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             itemBuilder: (context, index) {
                               final category = product?[index];
                               final isFavourite = category != null && favouriteList.any((favourite) => favourite.id.toString() == category.id?.toString(),);
-                              final isCart = category != null && cartList.any((cart) => cart.id.toString() == category.id?.toString(),);
+                              final isCart = category != null && cartList.any((cart) => cart.key.toString() == category.id?.toString(),);
                               return GestureDetector(
                                   onTap: () {
                                     Navigator.push(
@@ -278,7 +279,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                                         ..add(GetProductMain(id: category?.id ?? 0))
                                                         ..add(GetProductDecription(id: category?.id ?? 0))
                                                         ..add(GetFeature(id: category?.id ?? 0)),
-                                                  child: DetailScreen(),
+                                                  child: DetailScreen(isLiked: isFavourite),
                                                 )));
                                   },
                                   child: HitProductCard(
@@ -290,6 +291,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                     price: category?.salePrice.toString() ?? "",
                                     onLikeChanged: (newIsLiked) {
                                       if (newIsLiked) {
+                                        context.read<GlobalBloc>().add(AddsFavourite());
                                         context.read<CategoryBloc>().add(
                                               AddFavourite(Favourite(
                                                 category?.id.toString() ?? "0",
@@ -304,6 +306,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                               )),
                                             );
                                       } else {
+                                        context.read<GlobalBloc>().add(RemoveCart());
                                         context.read<CategoryBloc>().add(
                                               DeleteFavourite(
                                                   category?.id?.toString() ??
@@ -313,6 +316,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                     },
                                     onCartChanged: (newIsCart) {
                                       if (newIsCart) {
+                                        context.read<GlobalBloc>().add(AddsCart());
                                         context.read<CategoryBloc>().add(
                                           AddCart(Cart(
                                               category?.id.toString() ?? "0",
@@ -329,7 +333,9 @@ class _HomeScreenState extends State<HomeScreen> {
                                           )
                                           ),
                                         );
+
                                       } else {
+                                        context.read<GlobalBloc>().add(RemoveCart());
                                         context.read<CategoryBloc>().add(
                                           DeleteCart(
                                               category?.id?.toString() ??
@@ -423,7 +429,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                       favourite.id.toString() ==
                                       category.id?.toString(),
                                 );
-                            final isCart = category != null && cartList.any((cart) => cart.id.toString() == category.id?.toString(),);
+                            final isCart = category != null && cartList.any((cart) => cart.key.toString() == category.id?.toString(),);
 
                             return GestureDetector(
                               onTap: () {
@@ -436,7 +442,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                             ..add(GetProductMain(id: category?.id ?? 0))
                                             ..add(GetProductDecription(id: category?.id ?? 0))
                                             ..add(GetFeature(id: category?.id ?? 0)),
-                                          child: DetailScreen(),
+                                          child: DetailScreen(isLiked: isFavourite,),
                                         )));
                               },
                               child: HitProductCard(
@@ -448,6 +454,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                 price: category?.salePrice.toString() ?? "",
                                 onLikeChanged: (newIsLiked) {
                                   if (newIsLiked) {
+                                    context.read<GlobalBloc>().add(AddsFavourite());
                                     context.read<CategoryBloc>().add(
                                           AddFavourite(Favourite(
                                             category?.id.toString() ?? "0",
@@ -458,6 +465,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                           )),
                                         );
                                   } else {
+                                    context.read<GlobalBloc>().add(RemoveCart());
                                     context.read<CategoryBloc>().add(
                                           DeleteFavourite(
                                               category?.id?.toString() ?? ""),
@@ -466,6 +474,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                 },
                                 onCartChanged: (newIsCart) {
                                   if (newIsCart) {
+                                    context.read<GlobalBloc>().add(AddsCart());
                                     context.read<CategoryBloc>().add(
                                       AddCart(Cart(
                                         category?.id.toString() ?? "0",
@@ -483,6 +492,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                       ),
                                     );
                                   } else {
+                                    context.read<GlobalBloc>().add(RemoveCart());
                                     context.read<CategoryBloc>().add(
                                       DeleteCart(
                                           category?.id?.toString() ??
@@ -530,7 +540,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                   favourite.id.toString() ==
                                       category.id?.toString(),
                                 );
-                            final isCart = category != null && cartList.any((cart) => cart.id.toString() == category.id?.toString(),);
+                            final isCart = category != null && cartList.any((cart) => cart.key.toString() == category.id?.toString(),);
                             return GestureDetector(
                               onTap: () {
                                 Navigator.push(
@@ -542,7 +552,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                             ..add(GetProductMain(id: category?.id ?? 0))
                                             ..add(GetProductDecription(id: category?.id ?? 0))
                                             ..add(GetFeature(id: category?.id ?? 0)),
-                                          child: DetailScreen(),
+                                          child: DetailScreen(isLiked: isFavourite,),
                                         )));
                               },
                               child: HitProductCard(
@@ -555,6 +565,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                 sticer: category?.stickers?.first.image??"",
                                 onLikeChanged: (newIsLiked) {
                                   if (newIsLiked) {
+                                    context.read<GlobalBloc>().add(AddsFavourite());
                                     context.read<CategoryBloc>().add(
                                       AddFavourite(Favourite(
                                           category?.id.toString() ?? "0",
@@ -565,6 +576,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                       )),
                                     );
                                   } else {
+                                    context.read<GlobalBloc>().add(RemoveFavourite());
                                     context.read<CategoryBloc>().add(
                                       DeleteFavourite(
                                           category?.id?.toString() ?? ""),
@@ -573,6 +585,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                 },
                                 onCartChanged: (newIsCart) {
                                   if (newIsCart) {
+                                    context.read<GlobalBloc>().add(AddsCart());
                                     print("newIsCart");
                                     context.read<CategoryBloc>().add(
                                       AddCart(Cart(
@@ -592,7 +605,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                     );
                                   } else {
                                     print("newIsDelete");
-
+                                    context.read<GlobalBloc>().add(RemoveCart());
                                     context.read<CategoryBloc>().add(
                                       DeleteCart(
                                           category?.id?.toString() ??
@@ -656,7 +669,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                             ..add(GetProductMain(id: category?.id ?? 0))
                                             ..add(GetProductDecription(id: category?.id ?? 0))
                                             ..add(GetFeature(id: category?.id ?? 0)),
-                                          child: DetailScreen(),
+                                          child: DetailScreen(isLiked: isFavourite,),
                                         )));
                               },
                               child: HitProductCardSertifikat(
@@ -668,6 +681,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                 sticer: category?.stickers ?? [],
                                 onLikeChanged: (newIsLiked) {
                                   if (newIsLiked) {
+                                    context.read<GlobalBloc>().add(AddsFavourite());
                                     context.read<CategoryBloc>().add(
                                       AddFavourite(Favourite(
                                           category?.id.toString() ?? "0",
@@ -678,6 +692,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                       )),
                                     );
                                   } else {
+                                    context.read<GlobalBloc>().add(RemoveFavourite());
                                     context.read<CategoryBloc>().add(
                                       DeleteFavourite(
                                           category?.id?.toString() ?? ""),

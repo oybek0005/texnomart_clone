@@ -161,8 +161,8 @@ class HomeRepositoryImpl extends HomeRepository{
 
 
   @override
-  List<Cart> getAllElementInCart(){
-    final box =  Hive.box<Cart>(table2);
+  Future<List<Cart>> getAllElementInCart() async {
+    final box = Hive.box<Cart>(table2);
     return box.values.toList();
   }
 

@@ -10,24 +10,25 @@ part 'global_state.dart';
 
 class GlobalBloc extends Bloc<GlobalEvent, GlobalState> {
   GlobalBloc() : super(GlobalState()) {
-    final repository = getIt<HomeRepository>();
 
-    on<AddCart>((event, emit){
-      repository.addElementInCart(event.cart);
+    on<AddsCart>((event, emit){
+        emit(state.copyWith(count: state.count+1));
+    });
+    on<RemoveCart>((event, emit){
+        emit(state.copyWith(count: state.count-1));
+    });
+    on<AddsFavourite>((event, emit){
+        emit(state.copyWith(favourite: state.favourite+1));
+    });
+    on<RemoveFavourite>((event, emit){
+        emit(state.copyWith(favourite: state.favourite-1));
+    });
+    on<RemoveAllFavourite>((event, emit) {
+      emit(state.copyWith(favourite: 0));
     });
 
-    on<UpdateCart>((event, emit){
-      repository.updateCart(event.key,event.cart);
+    on<RemoveAllCart>((event, emit) {
+      emit(state.copyWith(count: 0));
     });
-
-    on<DeleteCart>((event, emit){
-      repository.deleteElementInCart(event.key);
-    });
-
-
-
-
-
-
   }
 }

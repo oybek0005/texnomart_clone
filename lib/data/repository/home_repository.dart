@@ -28,7 +28,7 @@ abstract class HomeRepository{
   List<Favourite> getAllElement();
   void delete(String key);
   void addElementInCart(Cart element);
-  List<Cart> getAllElementInCart();
+  Future<List<Cart>> getAllElementInCart();
   void deleteElementInCart(String key);
   void updateCart(String key, Cart updatedCart);
 }

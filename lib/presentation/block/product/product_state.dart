@@ -4,15 +4,18 @@ class ProductState {
   DetailMainResponse? detailMain;
   DetailDescriptionResponse? detailDescription;
   FeatureResponse? feature;
-  ProductStatus? status;
+  ProductStatus status;
 
-  ProductState({this.detailMain,this.status, this.detailDescription, this.feature});
+
+
+  ProductState({this.detailMain,this.status = ProductStatus.loading, this.detailDescription, this.feature});
 
   ProductState copyWith({
     ProductStatus? status,
     DetailMainResponse? detailMain,
     DetailDescriptionResponse? detailDescription,
     FeatureResponse? feature,
+    String? selectedCategory
   }) =>
       ProductState(
         status: status ?? this.status,

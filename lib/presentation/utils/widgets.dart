@@ -202,7 +202,7 @@ class _HitProductCardState extends State<HitProductCard> {
                     child: Icon(
                       _isInCart ? Icons.shopping_cart : Icons.add_shopping_cart,
                       size: 20,
-                      color: _isInCart ? Colors.green : Colors.grey,
+                      color: _isInCart ? Colors.amber : Colors.grey,
                     ),
                   ),
                 )
@@ -347,18 +347,6 @@ class _HitProductCardSertifikatState extends State<HitProductCardSertifikat> {
                         maxLines: 1,
                       ),
                     ),
-                    Container(
-                      height: 30,
-                      width: 30,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(12),
-                        border: Border.all(
-                          color: Color(0XFFFBC100),
-                          width: 2,
-                        ),
-                      ),
-                      child: Icon(Icons.shopping_cart_outlined, size: 16),
-                    )
                   ],
                 ),
               ),
@@ -371,21 +359,23 @@ class _HitProductCardSertifikatState extends State<HitProductCardSertifikat> {
 }
 
 class HitProductCardHorizontal extends StatefulWidget {
-  final bool isLiked;
+  final bool isInCart;
   final String title;
   final String imageUrl;
   final String subtitle;
   final String price;
-  final Function(bool isLiked) onLikeChanged;
+  final Function() onLikeChanged;
+  final Function(bool isOnCart) onCartChanged;
 
   const HitProductCardHorizontal({
     Key? key,
-    required this.isLiked,
+    required this.isInCart,
     required this.title,
     required this.imageUrl,
     required this.subtitle,
     required this.price,
     required this.onLikeChanged,
+    required this.onCartChanged,
   }) : super(key: key);
 
   @override
@@ -394,21 +384,21 @@ class HitProductCardHorizontal extends StatefulWidget {
 }
 
 class _HitProductCardHorizontalState extends State<HitProductCardHorizontal> {
-  late bool _isLiked;
+
+  late bool _isInCart;
 
   @override
   void initState() {
     super.initState();
-    _isLiked = widget.isLiked;
+    _isInCart = widget.isInCart;
   }
 
-  void _toggleLike() {
+  void _toggleCart() {
     setState(() {
-      _isLiked = !_isLiked;
-      widget.onLikeChanged(_isLiked);
+      _isInCart = !_isInCart;
+      widget.onCartChanged(_isInCart);
     });
   }
-
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -442,10 +432,10 @@ class _HitProductCardHorizontalState extends State<HitProductCardHorizontal> {
               Row(
                 children: [
                   GestureDetector(
-                    onTap: _toggleLike,
+                    onTap: widget.onLikeChanged,
                     child: Icon(
-                      _isLiked ? Icons.favorite : Icons.favorite_border,
-                      color: _isLiked ? Colors.red : Colors.grey,
+                      Icons.favorite,
+                      color: Colors.red,
                       size: 20,
                     ),
                   ),
@@ -501,14 +491,25 @@ class _HitProductCardHorizontalState extends State<HitProductCardHorizontal> {
                         color: Colors.black,
                       ),
                     ),
-                    IconButton(
-                      onPressed: () {},
-                      icon: Icon(
-                        Icons.shopping_cart_outlined,
-                        color: Colors.blue,
-                        size: 24,
+                    GestureDetector(
+                      onTap: _toggleCart,
+                      child: Container(
+                        height: 28,
+                        width: 28,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(12),
+                          border: Border.all(
+                            color: Color(0XFFFBC100),
+                            width: 2,
+                          ),
+                        ),
+                        child: Icon(
+                          _isInCart ? Icons.shopping_cart : Icons.add_shopping_cart,
+                          size: 20,
+                          color: _isInCart ? Colors.amber : Colors.grey,
+                        ),
                       ),
-                    ),
+                    )
                   ],
                 ),
               ],
@@ -520,19 +521,20 @@ class _HitProductCardHorizontalState extends State<HitProductCardHorizontal> {
   }
 }
 
-Widget _buildShoppingCartButton() {
-  return Container(
-    height: 30,
-    width: 30,
-    decoration: BoxDecoration(
-      borderRadius: BorderRadius.circular(12),
-      border: Border.all(
-        color: Color(0XFFFBC100),
-        width: 2,
-      ),
-    ),
-    child: Icon(Icons.shopping_cart_outlined, size: 16),
-  );
+String formatMoney(String amount) {
+  String result = '';
+  int count = 0;
+
+  for (int i = amount.length - 1; i >= 0; i--) {
+    result = amount[i] + result;
+    count++;
+
+    if (count % 3 == 0 && i != 0) {
+      result = ' $result';
+    }
+  }
+
+  return result;
 }
 
 Widget customText(String text, FontWeight fontWeight, double fontSize,

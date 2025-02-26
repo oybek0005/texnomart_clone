@@ -10,6 +10,7 @@ import 'package:texnomart_clone/data/source/remote/response/products/get_product
 import 'package:texnomart_clone/data/source/remote/response/spacial_brands/special_brands_response.dart';
 
 import '../../../di/di.dart';
+import '../global/global_bloc.dart';
 
 part 'category_event.dart';
 part 'category_state.dart';
@@ -69,16 +70,38 @@ class CategoryBloc extends Bloc<CategoryEvent, CategoryState> {
         emit(state.copyWith(status: Status.fail));
       }
     });
-    
+
     on<GetProductAllEvent>((event, emit) async {
+      if (state.hasReachedMax) return;
+
       emit(state.copyWith(status: Status.loading));
-      try{
-        final result  = await repository.getProductsAll(event.category, "-order_count", event.page);
-        emit(state.copyWith(status: Status.success, getProductsCategory: result));
-      } on DioException catch(e){
+
+      try {
+        final result = await repository.getProductsAll(
+          event.category,
+          "-order_count",
+          state.currentPage,
+        );
+        print("current page ${state.currentPage}");
+
+        final previousProducts = state.getProductsCategory ?? <GetProducts>[];
+        final updatedProducts = List<GetProducts>.from(previousProducts)..add(result);
+        print("Updated product list length: ${updatedProducts.length}");
+        bool reachedMax = result == null || (result.data?.products?.isEmpty ?? true);
+
+        emit(state.copyWith(
+          status: Status.success,
+          getProductsCategory: updatedProducts,
+          currentPage: state.currentPage + 1,
+          hasReachedMax: reachedMax,
+        ));
+      } on DioException catch (e) {
         emit(state.copyWith(status: Status.fail));
       }
     });
+
+
+
 
     on<GetChipsEvent>((event, emit) async {
       emit(state.copyWith(status: Status.loading));
@@ -116,8 +139,9 @@ class CategoryBloc extends Bloc<CategoryEvent, CategoryState> {
     });
 
     on<GetAllCart>((event, emit) async {
-      final result = repository.getAllElementInCart();
-      emit(state.copyWith(cartData: result,));
+      emit(state.copyWith(status: Status.loading));
+        final result = await repository.getAllElementInCart();
+        emit(state.copyWith(cartData: result,status: Status.success));
     });
   }
 }

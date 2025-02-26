@@ -17,3 +17,9 @@ class GetFeature extends ProductEvent{
   GetFeature({required this.id});
 }
 
+
+class AddFavouriteProduct extends ProductEvent{
+  final Favourite favourite;
+
+  AddFavouriteProduct(this.favourite);
+}

@@ -7,6 +7,8 @@ import 'package:texnomart_clone/data/source/remote/response/detail_decription/de
 import 'package:texnomart_clone/data/source/remote/response/feature/feature_response.dart';
 import 'package:texnomart_clone/di/di.dart';
 
+import '../../../data/source/locale/hive_data/favourite.dart';
+
 part 'product_event.dart';
 part 'product_state.dart';
 
@@ -40,5 +42,9 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
         emit(state.copyWith(status: ProductStatus.fail));
       }
     });
+    on<AddFavouriteProduct>((event, emit) async{
+      repository.addElement(event.favourite);
+    });
+
   }
 }
