@@ -9,6 +9,7 @@ class AddsFavourite extends GlobalEvent {}
 class RemoveFavourite extends GlobalEvent {}
 class RemoveAllCart extends GlobalEvent {}
 class RemoveAllFavourite extends GlobalEvent {}
+class GetAllLocation extends GlobalEvent{}
 
 
 

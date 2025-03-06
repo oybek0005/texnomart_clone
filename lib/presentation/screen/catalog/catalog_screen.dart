@@ -2,9 +2,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:texnomart_clone/presentation/block/catalog/catalog_bloc.dart';
-import 'package:texnomart_clone/presentation/screen/product_category_screen.dart';
+import 'package:texnomart_clone/presentation/screen/home_screen/product_category_screen.dart';
 import 'package:texnomart_clone/presentation/utils/widgets.dart';
+
+import 'catalog/catalog_bloc.dart';
 
 class CatalogScreen extends StatefulWidget {
   const CatalogScreen({super.key});

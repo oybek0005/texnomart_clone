@@ -7,9 +7,9 @@ import 'package:texnomart_clone/data/source/locale/hive_data/favourite.dart';
 import 'package:texnomart_clone/presentation/screen/other_data_screen.dart';
 import 'package:texnomart_clone/presentation/utils/widgets.dart';
 
-import '../block/category/category_bloc.dart';
 import '../block/global/global_bloc.dart';
 import '../block/product/product_bloc.dart';
+import 'home_screen/category/category_bloc.dart';
 
 class DetailScreen extends StatefulWidget {
   final bool isLiked;

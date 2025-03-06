@@ -8,18 +8,21 @@ import 'package:texnomart_clone/data/source/remote/response/chips/get_chips_resp
 import 'package:texnomart_clone/data/source/remote/response/collections/collections.dart';
 import 'package:texnomart_clone/data/source/remote/response/detail/detail_main_response.dart';
 import 'package:texnomart_clone/data/source/remote/response/hit_category/hit_categories_response.dart';
+import 'package:texnomart_clone/data/source/remote/response/map/location_response.dart';
 import 'package:texnomart_clone/data/source/remote/response/products/get_products.dart';
 import 'package:texnomart_clone/data/source/remote/response/spacial_brands/special_brands_response.dart';
 
 import '../../../di/di.dart';
 import '../../source/locale/hive_data/favourite.dart';
+import '../../source/remote/api/location_api.dart';
 import '../../source/remote/api/product_api.dart';
 import '../../source/remote/response/detail_decription/detail_description_response.dart';
 import '../../source/remote/response/feature/feature_response.dart';
 import '../../source/remote/response/hit_products/hit_products_response.dart';
 
 class HomeRepositoryImpl extends HomeRepository{
-  final productApi = getIt<ProductApi>();
+  final productApi = getIt<ProductApi>(instanceName: 'primaryProductApi');
+  final locationApi = getIt<LocationApi>(instanceName: 'secondaryProductApi');
 
   static String table = "favourite_table";
   static String table2 = "cart_table";
@@ -176,6 +179,16 @@ class HomeRepositoryImpl extends HomeRepository{
   void updateCart(String key, Cart updatedCart) async {
     delete(key);
     addElementInCart(updatedCart);
+  }
+
+  @override
+  Future<LocationResponse> getAllLocation() async {
+    try{
+      final response  = await locationApi.getAllLocation();
+      return response;
+    } on DioException{
+      rethrow;
+    }
   }
 
 

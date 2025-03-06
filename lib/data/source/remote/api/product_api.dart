@@ -7,6 +7,7 @@ import 'package:texnomart_clone/data/source/remote/response/detail/detail_main_r
 import 'package:texnomart_clone/data/source/remote/response/detail_decription/detail_description_response.dart';
 import 'package:texnomart_clone/data/source/remote/response/feature/feature_response.dart';
 import 'package:texnomart_clone/data/source/remote/response/hit_category/hit_categories_response.dart';
+import 'package:texnomart_clone/data/source/remote/response/map/location_response.dart';
 import 'package:texnomart_clone/data/source/remote/response/products/get_products.dart';
 
 import '../response/hit_products/hit_products_response.dart';
@@ -49,4 +50,5 @@ abstract class ProductApi {
 
   @GET("web/v1/product/characters")
   Future<FeatureResponse> getFeatureResponse(@Query("id") int id);
+
 }

@@ -8,6 +8,7 @@ import 'package:texnomart_clone/data/repository/home_repository.dart';
 import 'package:texnomart_clone/data/repository/impl/home_repository_impl.dart';
 
 import '../data/source/locale/hive_data/favourite.dart';
+import '../data/source/remote/api/location_api.dart';
 import '../data/source/remote/api/product_api.dart';
 
 final getIt = GetIt.instance;
@@ -28,10 +29,32 @@ void setup() {
         ),
       ),
     ),
+    instanceName: 'primaryDio',
   );
-  getIt.registerSingleton<ProductApi>(ProductApi(getIt<Dio>()));
+
+  getIt.registerSingleton<Dio>(
+    Dio(
+      BaseOptions(
+        baseUrl: 'https://gateway.texnomart.uz/api/',
+      ),
+    )..interceptors.add(
+      TalkerDioLogger(
+        settings: const TalkerDioLoggerSettings(
+          printResponseData: true,
+          printRequestData: false,
+          printResponseHeaders: true,
+          printRequestHeaders: false,
+        ),
+      ),
+    ),
+    instanceName: 'secondaryDio',
+  );
+  getIt.registerSingleton<ProductApi>(ProductApi(getIt<Dio>(instanceName: 'primaryDio')), instanceName: 'primaryProductApi',);
+  getIt.registerSingleton<LocationApi>(LocationApi(getIt<Dio>(instanceName: 'secondaryDio')), instanceName: 'secondaryProductApi',);
   getIt.registerSingleton<HomeRepository>(HomeRepositoryImpl());
+
 }
+
 
 Future<void> initHive() async {
   final dir = await getApplicationDocumentsDirectory();

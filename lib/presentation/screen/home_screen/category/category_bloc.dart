@@ -9,8 +9,8 @@ import 'package:texnomart_clone/data/source/remote/response/hit_products/hit_pro
 import 'package:texnomart_clone/data/source/remote/response/products/get_products.dart';
 import 'package:texnomart_clone/data/source/remote/response/spacial_brands/special_brands_response.dart';
 
-import '../../../di/di.dart';
-import '../global/global_bloc.dart';
+import '../../../../di/di.dart';
+
 
 part 'category_event.dart';
 part 'category_state.dart';

@@ -5,10 +5,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:texnomart_clone/presentation/utils/widgets.dart';
 
 import '../../data/source/locale/hive_data/favourite.dart';
-import '../block/category/category_bloc.dart';
 import '../block/global/global_bloc.dart';
 import '../block/product/product_bloc.dart';
 import 'detail_screen.dart';
+import 'home_screen/category/category_bloc.dart';
 
 class CartScreen extends StatefulWidget {
   const CartScreen({super.key});

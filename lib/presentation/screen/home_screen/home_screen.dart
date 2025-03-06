@@ -5,15 +5,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:texnomart_clone/data/source/locale/hive_data/favourite.dart';
 import 'package:texnomart_clone/presentation/screen/detail_screen.dart';
-import 'package:texnomart_clone/presentation/screen/product_category_screen.dart';
+import 'package:texnomart_clone/presentation/screen/home_screen/product_category_screen.dart';
 
-import '../block/category/category_bloc.dart';
-import '../block/global/global_bloc.dart';
-import '../block/product/product_bloc.dart';
-import '../utils/persistent_header.dart';
-import '../utils/widgets.dart';
+import '../../block/global/global_bloc.dart';
+import '../../block/product/product_bloc.dart';
+import '../../utils/persistent_header.dart';
+import '../../utils/widgets.dart';
+import 'category/category_bloc.dart';
 
 class HomeScreen extends StatefulWidget {
+
   const HomeScreen({super.key});
 
   @override

@@ -3,12 +3,14 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../data/source/locale/hive_data/favourite.dart';
-import '../block/favourite/favourite_bloc.dart';
-import '../block/global/global_bloc.dart';
-import '../block/product/product_bloc.dart';
-import '../utils/widgets.dart';
-import 'detail_screen.dart';
+import '../../../data/source/locale/hive_data/favourite.dart';
+import '../../block/global/global_bloc.dart';
+import '../../block/product/product_bloc.dart';
+import '../../utils/widgets.dart';
+import '../detail_screen.dart';
+import 'favourite/favourite_bloc.dart';
+
+
 
 class FavouriteScreen extends StatefulWidget {
   const FavouriteScreen({super.key});

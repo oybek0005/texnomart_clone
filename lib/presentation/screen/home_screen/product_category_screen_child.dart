@@ -1,15 +1,15 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:texnomart_clone/presentation/screen/product_category_screen.dart';
+import 'package:texnomart_clone/presentation/screen/home_screen/product_category_screen.dart';
 import 'package:texnomart_clone/presentation/utils/widgets.dart';
 
-import '../../data/source/locale/hive_data/favourite.dart';
-import '../block/category/category_bloc.dart';
-import '../block/global/global_bloc.dart';
-import '../block/product/product_bloc.dart';
-import '../utils/persistent_header_2.dart';
-import 'detail_screen.dart';
+import '../../../data/source/locale/hive_data/favourite.dart';
+import '../../block/global/global_bloc.dart';
+import '../../block/product/product_bloc.dart';
+import '../../utils/persistent_header_2.dart';
+import '../detail_screen.dart';
+import 'category/category_bloc.dart';
 
 class ProductCategoryScreenChild extends StatefulWidget {
   final String? title;
